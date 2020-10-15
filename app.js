@@ -28,10 +28,11 @@ app.get("/", function(req, res){
 
     var day = today.toLocaleDateString("en-US", options);
 
-    // you need to create VIEW folder with List.ejs, you pass over the logic into the Template file
+    // When you render, you need to pass all object key&value together
     res.render("list", {kindOfDay: day, newListItems: items});
 });
 
+// to prevent undefined value of items, we create empty items array
 app.post("/", function(req, res){
     var item = req.body.newItem;
     items.push(item);
