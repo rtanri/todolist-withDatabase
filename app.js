@@ -10,12 +10,15 @@ const app = express()
 //simple get route that will send user "hello" when user try to access home route
 app.get("/", function(req, res){
     var today = new Date();
+    var currentDay = today.getDate();
 
     // checking if today is Saturday or Sunday
-    if (today.getDay() === 6 || today.getDay() === 0){
-        res.send("Yay it's Weekend!");
+    if (currentDay === 6 || currentDay === 0){
+        res.send("<h1>Yay it's Weekend!</h1>");
     } else {
-        res.send("Boo! I have to work!");
+        res.write("<h1>Boo! I have to work!</h1>");
+        res.write("<p>It is not a weekend.</p>");
+        res.send();
     }
 });
 
