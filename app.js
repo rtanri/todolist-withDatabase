@@ -7,6 +7,8 @@ const bodyParser = require("body-parser")
 //create app constant by using express
 const app = express()
 
+var items = ["Buy Food", "Cook Food", "Eat Food"];
+
 // basic setup, below the constant "app"
 app.set('view engine', 'ejs');
 
@@ -27,13 +29,15 @@ app.get("/", function(req, res){
     var day = today.toLocaleDateString("en-US", options);
 
     // you need to create VIEW folder with List.ejs, you pass over the logic into the Template file
-    res.render("list", {kindOfDay: day});
+    res.render("list", {kindOfDay: day, newListItems: items});
 });
 
 app.post("/", function(req, res){
     var item = req.body.newItem;
-    console.log(item);
-})
+    items.push(item);
+
+    res.redirect("/");
+});
 
 //listen in port 3000
 app.listen(3000, function(){
