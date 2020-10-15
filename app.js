@@ -7,6 +7,10 @@ const bodyParser = require("body-parser")
 //create app constant by using express
 const app = express()
 
+// basic setup, below the constant "app"
+app.set('view engine', 'ejs');
+
+
 //simple get route that will send user "hello" when user try to access home route
 app.get("/", function(req, res){
     var today = new Date();
