@@ -10,6 +10,9 @@ const app = express()
 // basic setup, below the constant "app"
 app.set('view engine', 'ejs');
 
+// to allow you grab the "body.newItem"
+app.use(bodyParser.urlencoded({extended: true}));
+
 
 //simple get route that will send user "hello" when user try to access home route
 app.get("/", function(req, res){
@@ -23,11 +26,14 @@ app.get("/", function(req, res){
 
     var day = today.toLocaleDateString("en-US", options);
 
-
     // you need to create VIEW folder with List.ejs, you pass over the logic into the Template file
     res.render("list", {kindOfDay: day});
-
 });
+
+app.post("/", function(req, res){
+    var item = req.body.newItem;
+    console.log(item);
+})
 
 //listen in port 3000
 app.listen(3000, function(){
