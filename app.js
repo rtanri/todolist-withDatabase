@@ -15,13 +15,18 @@ app.set('view engine', 'ejs');
 app.get("/", function(req, res){
     var today = new Date();
     var currentDay = today.getDate();
+    var day = "";
 
     // checking if today is Saturday or Sunday
     if (currentDay === 6 || currentDay === 0){
-        res.send("<h1>Yay it's Weekend!</h1>");
+        day = "Weekend";
     } else {
-        res.sendFile(__dirname + "/index.html");
+        day = "Weekday";
     }
+
+    // you need to create VIEW folder with List.ejs, you pass over the logic into the Template file
+    res.render("list", {kindOfDay: day});
+
 });
 
 //listen in port 3000
