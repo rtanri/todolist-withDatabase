@@ -5,7 +5,12 @@
     <title>To Do List with Database</title>
 </head>
 <body>
-    <h1>It's a <%= kindOfDay %> !</h1>
+    <!-- we need to put scriplet tag for JS, and ignore the HTML -->
+    <% if (kindOfDay === "Saturday" || kindOfDay ==="Sunday") { %>
+        <h1 style="color: purple">It's a <%= kindOfDay %> ToDo List!</h1>
+    <% } else { %>
+        <h1 style="color: green">It's a <%= kindOfDay %> ToDo List!</h1>
+    <% } %>
 
 </body>
 </html>
