@@ -9,6 +9,8 @@ const app = express()
 
 let items = ["Buy Food", "Cook Food", "Eat Food"];
 
+let workItems = [];
+
 // basic setup, below the constant "app"
 app.set('view engine', 'ejs');
 
@@ -31,7 +33,7 @@ app.get("/", function(req, res){
     let day = today.toLocaleDateString("en-US", options);
 
     // When you render, you need to pass all object key&value together
-    res.render("list", {kindOfDay: day, newListItems: items});
+    res.render("list", {listTitle: day, newListItems: items});
 });
 
 // to prevent undefined value of items, we create empty items array
@@ -41,6 +43,16 @@ app.post("/", function(req, res){
 
     res.redirect("/");
 });
+
+app.get("/work", function(req, res){
+    res.render("list", {listTitle: "Work List", newListItems: workItems});
+})
+
+app.post("/work", function(req, res){
+    let item = req.body.newItem;
+    workItems.push(item);
+    res.redirect("/work");
+})
 
 //listen in port 3000
 app.listen(3000, function(){

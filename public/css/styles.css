@@ -1,6 +1,6 @@
 html {
   background-color: #E4E9FD;
-  background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%);
+  background-image: -webkit-linear-gradient(65deg, #A683E3 50%, #E4E9FD 50%); 
   min-height: 1000px;
   font-family: 'helvetica neue';
 }
@@ -30,10 +30,12 @@ h1 {
   border-bottom: 1px solid #F1F1F1;
 }
 
+/* to target specificly the last child item */
 .item:last-child {
   border-bottom: 0;
 }
 
+/* Look for the input in the checked state, and +p is to select the p-element that come to the end of plus */
 input:checked+p {
   text-decoration: line-through;
   text-decoration-color: #A683E3;
@@ -64,7 +66,7 @@ button {
   background-color: #A683E3;
   color: #fff;
   font-size: 30px;
-  padding-bottom: 6px;
+  /* padding-bottom: 6px; */
   border-width: 0;
 }
 
@@ -84,6 +86,7 @@ input[type="text"]:focus {
   box-shadow: inset 0 -3px 0 0 #A683E3;
 }
 
+/* Pseudo Selector, just target placeholder and give particular style. */
 ::placeholder {
   color: grey;
   opacity: 1;
