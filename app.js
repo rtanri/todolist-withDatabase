@@ -38,10 +38,19 @@ app.get("/", function(req, res){
 
 // to prevent undefined value of items, we create empty items array
 app.post("/", function(req, res){
-    let item = req.body.newItem;
-    items.push(item);
 
-    res.redirect("/");
+    // to check what captured in submit
+    // console.log(req.body);
+    let item = req.body.newItem;
+
+    // use the value of listTitle in the form-button to redirect and push item to arrays
+    if (req.body.list === 'Work'){
+        workItems.push(item);
+        res.redirect("/work");
+    } else {
+        items.push(item);
+        res.redirect("/");
+    }
 });
 
 app.get("/work", function(req, res){
