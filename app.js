@@ -20,7 +20,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
 
-//simple get route that will send user "hello" when user try to access home route
+//create route for HOME page
 app.get("/", function(req, res){
     let today = new Date();
  
@@ -53,9 +53,15 @@ app.post("/", function(req, res){
     }
 });
 
+//create route for WORK page
 app.get("/work", function(req, res){
     res.render("list", {listTitle: "Work List", newListItems: workItems});
 })
+
+//create the route for ABOUT page
+app.get("/about", function (req, res){
+    res.render("about");
+}) 
 
 app.post("/work", function(req, res){
     let item = req.body.newItem;
