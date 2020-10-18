@@ -3,21 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>To Do List with Database</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
-<body>
-    <!-- we need to put scriplet tag for JS, and ignore the HTML -->
-    <% if (kindOfDay === "Saturday" || kindOfDay ==="Sunday") { %>
-        <h1 style="color: purple"><%= kindOfDay %></h1>
-    <% } else { %>
-        <h1 style="color: green"><%= kindOfDay %></h1>
-    <% } %>
 
-    <ul style="font-size: 20pt;">
+<body>
+   <div class="box" id="heading">
+            <h1><%= kindOfDay %></h1>
+   </div> 
+   <div class="box">
         <!-- Remember to use marker for value and scriptlet -->
         <% for (var i=0; i<newListItems.length; i++){ %>
-            <li><%= newListItems[i] %></li>
+            <div class="item">
+                <p><%= newListItems[i] %></p>
+            </div>
         <% } %>
-    </ul>
+    
+   </div>
+
 
     <form class="" action="/" method="post">
         <input type="text" name="newItem">

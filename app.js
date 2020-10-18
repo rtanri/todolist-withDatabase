@@ -7,26 +7,28 @@ const bodyParser = require("body-parser")
 //create app constant by using express
 const app = express()
 
-var items = ["Buy Food", "Cook Food", "Eat Food"];
+let items = ["Buy Food", "Cook Food", "Eat Food"];
 
 // basic setup, below the constant "app"
 app.set('view engine', 'ejs');
 
 // to allow you grab the "body.newItem"
 app.use(bodyParser.urlencoded({extended: true}));
+// to set the express check Public folder for CSS and JS
+app.use(express.static("public"));
 
 
 //simple get route that will send user "hello" when user try to access home route
 app.get("/", function(req, res){
-    var today = new Date();
+    let today = new Date();
  
-    var options = {
+    let options = {
         weekday: "long",
         day: "numeric",
         month: "long"
     };
 
-    var day = today.toLocaleDateString("en-US", options);
+    let day = today.toLocaleDateString("en-US", options);
 
     // When you render, you need to pass all object key&value together
     res.render("list", {kindOfDay: day, newListItems: items});
@@ -34,7 +36,7 @@ app.get("/", function(req, res){
 
 // to prevent undefined value of items, we create empty items array
 app.post("/", function(req, res){
-    var item = req.body.newItem;
+    let item = req.body.newItem;
     items.push(item);
 
     res.redirect("/");
