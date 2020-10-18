@@ -3,6 +3,7 @@
 //requiring both packages: express and body-parser 
 const express = require("express")
 const bodyParser = require("body-parser")
+const date = require(__dirname+ "/date.js")
 
 //create app constant by using express
 const app = express()
@@ -22,16 +23,7 @@ app.use(express.static("public"));
 
 //create route for HOME page
 app.get("/", function(req, res){
-    let today = new Date();
- 
-    let options = {
-        weekday: "long",
-        day: "numeric",
-        month: "long"
-    };
-
-    let day = today.toLocaleDateString("en-US", options);
-
+    let day = date.getDate();
     // When you render, you need to pass all object key&value together
     res.render("list", {listTitle: day, newListItems: items});
 });
