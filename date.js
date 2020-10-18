@@ -16,10 +16,8 @@ function getDate(){
     return day;
 }
 
-module.exports.getDay = getDay;
-
 // just an example with 2 functions and how to recall
-function getDay(){
+module.exports.getDay = function (){
     let today = new Date();
     
     let options = {

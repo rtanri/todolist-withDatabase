@@ -8,9 +8,9 @@ const date = require(__dirname+ "/date.js")
 //create app constant by using express
 const app = express()
 
-let items = ["Buy Food", "Cook Food", "Eat Food"];
+const items = ["Buy Food", "Cook Food", "Eat Food"];
 
-let workItems = [];
+const workItems = [];
 
 // basic setup, below the constant "app"
 app.set('view engine', 'ejs');
@@ -23,7 +23,7 @@ app.use(express.static("public"));
 
 //create route for HOME page
 app.get("/", function(req, res){
-    let day = date.getDate();
+    const day = date.getDate();
     // When you render, you need to pass all object key&value together
     res.render("list", {listTitle: day, newListItems: items});
 });
@@ -33,7 +33,7 @@ app.post("/", function(req, res){
 
     // to check what captured in submit
     // console.log(req.body);
-    let item = req.body.newItem;
+    const item = req.body.newItem;
 
     // use the value of listTitle in the form-button to redirect and push item to arrays
     if (req.body.list === 'Work'){
