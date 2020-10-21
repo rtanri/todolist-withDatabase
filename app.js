@@ -3,11 +3,10 @@
 //requiring both packages: express and body-parser 
 const express = require("express")
 const bodyParser = require("body-parser")
-const date = require(__dirname+ "/date.js")
+const mongoose = require("mongoose");
 
 //create app constant by using express
 const app = express()
-
 
 // basic setup, below the constant "app"
 app.set('view engine', 'ejs');
@@ -17,12 +16,52 @@ app.use(bodyParser.urlencoded({extended: true}));
 // to set the express check Public folder for CSS and JS
 app.use(express.static("public"));
 
+mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true, useUnifiedTopology: true });
+
+const itemsSchema = {
+    name: String
+};
+
+// model based on schema
+const Item = mongoose.model("Item", itemsSchema);
+
+// const item1 = new Item({
+//     name: "Welcome to your todolist!"
+// });
+
+// const item2 = new Item({
+//     name: "Hit the + button to add new item."
+// });
+
+// const item3 = new Item({
+//     name: "<-- Hit this to delete an item."
+// });
+
+// const defaultItems = [item1, item2, item3];
+
+// Item.insertMany(defaultItems, function(err){
+//     if(err){
+//     console.log(err);
+//     } else {
+//         console.log("Succesfully Added all items");
+//         mongoose.connection.close();
+//     }}
+// )
+
+// Item.deleteMany({name:"Hit the + button to add new item."}, function (err){
+//     if(err){
+//         console.log(err);
+//     } else {
+//         console.log("Successfully delete");
+//         mongoose.connection.close();
+//     }
+    
+// })
 
 //create route for HOME page
 app.get("/", function(req, res){
-    const day = date.getDate();
     // When you render, you need to pass all object key&value together
-    res.render("list", {listTitle: day, newListItems: items});
+    res.render("list", {listTitle: "Today", newListItems: items});
 });
 
 // to prevent undefined value of items, we create empty items array
