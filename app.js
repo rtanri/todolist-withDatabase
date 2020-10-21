@@ -8,9 +8,6 @@ const date = require(__dirname+ "/date.js")
 //create app constant by using express
 const app = express()
 
-const items = ["Buy Food", "Cook Food", "Eat Food"];
-
-const workItems = [];
 
 // basic setup, below the constant "app"
 app.set('view engine', 'ejs');
