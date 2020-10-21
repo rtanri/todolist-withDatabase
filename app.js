@@ -75,18 +75,16 @@ app.get("/", function(req, res){
 // to prevent undefined value of items, we create empty items array
 app.post("/", function(req, res){
 
-    // to check what captured in submit
-    // console.log(req.body);
-    const item = req.body.newItem;
+    const itemName = req.body.newItem;
 
-    // use the value of listTitle in the form-button to redirect and push item to arrays
-    if (req.body.list === 'Work'){
-        workItems.push(item);
-        res.redirect("/work");
-    } else {
-        items.push(item);
-        res.redirect("/");
-    }
+    const item = new Item({
+        name: itemName
+    });
+
+    item.save(); //to save in item DB collection
+
+    res.redirect("/");
+
 });
 
 //create route for WORK page
