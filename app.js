@@ -60,8 +60,10 @@ const Item = mongoose.model("Item", itemsSchema);
 
 //create route for HOME page
 app.get("/", function(req, res){
-    // When you render, you need to pass all object key&value together
-    res.render("list", {listTitle: "Today", newListItems: items});
+    Item.find({}, function(err, foundItems){
+        res.render("list", {listTitle: "Today", newListItems: foundItems});
+    });
+
 });
 
 // to prevent undefined value of items, we create empty items array
