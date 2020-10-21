@@ -85,7 +85,14 @@ app.post("/", function(req, res){
 });
 
 app.post("/delete", function(req,res){
-    console.log(req.body.checkbox);
+    const checkedItemId = req.body.checkbox;
+    
+    // need to have callback to execute
+    Item.findByIdAndRemove(checkedItemId, function (err){
+        if(!err){
+            console.log("Successfully deleted checked item");
+        }   
+    })
 });
 
 //create route for WORK page
