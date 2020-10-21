@@ -76,15 +76,16 @@ app.get("/", function(req, res){
 app.post("/", function(req, res){
 
     const itemName = req.body.newItem;
-
     const item = new Item({
         name: itemName
     });
-
     item.save(); //to save in item DB collection
-
     res.redirect("/");
 
+});
+
+app.post("/delete", function(req,res){
+    console.log(req.body.checkbox);
 });
 
 //create route for WORK page
