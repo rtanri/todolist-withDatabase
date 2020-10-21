@@ -25,28 +25,21 @@ const itemsSchema = {
 // model based on schema
 const Item = mongoose.model("Item", itemsSchema);
 
-// const item1 = new Item({
-//     name: "Welcome to your todolist!"
-// });
+const item1 = new Item({
+    name: "Welcome to your todolist!"
+});
 
-// const item2 = new Item({
-//     name: "Hit the + button to add new item."
-// });
+const item2 = new Item({
+    name: "Hit the + button to add new item."
+});
 
-// const item3 = new Item({
-//     name: "<-- Hit this to delete an item."
-// });
+const item3 = new Item({
+    name: "<-- Hit this to delete an item."
+});
 
-// const defaultItems = [item1, item2, item3];
+const defaultItems = [item1, item2, item3];
 
-// Item.insertMany(defaultItems, function(err){
-//     if(err){
-//     console.log(err);
-//     } else {
-//         console.log("Succesfully Added all items");
-//         mongoose.connection.close();
-//     }}
-// )
+
 
 // Item.deleteMany({name:"Hit the + button to add new item."}, function (err){
 //     if(err){
@@ -60,10 +53,23 @@ const Item = mongoose.model("Item", itemsSchema);
 
 //create route for HOME page
 app.get("/", function(req, res){
-    Item.find({}, function(err, foundItems){
-        res.render("list", {listTitle: "Today", newListItems: foundItems});
-    });
 
+    
+    Item.find({}, function(err, foundItems){
+
+        if (foundItems.length === 0){
+            Item.insertMany(defaultItems, function(err){
+                if(err){
+                    console.log(err);
+                } else {
+                    console.log("Succesfully Added all items to DB");
+                }}
+            );
+            res.redirect("/");
+        } else {
+            res.render("list", {listTitle: "Today", newListItems: foundItems});
+        }
+    });
 });
 
 // to prevent undefined value of items, we create empty items array
