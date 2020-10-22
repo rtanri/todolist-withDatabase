@@ -4,6 +4,7 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const mongoose = require("mongoose");
+const _=require("lodash");
 
 //create app constant by using express
 const app = express()
@@ -11,19 +12,16 @@ const app = express()
 // basic setup, below the constant "app"
 app.set('view engine', 'ejs');
 
-// to allow you grab the "body.newItem"
-app.use(bodyParser.urlencoded({extended: true}));
-// to set the express check Public folder for CSS and JS
+app.use(bodyParser.urlencoded({extended: true}));// to allow you grab the "body.newItem"
 app.use(express.static("public"));
 
 mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true, useUnifiedTopology: true });
 
 const itemsSchema = {
     name: String
-};
+}; //create schema
 
-// model based on schema
-const Item = mongoose.model("Item", itemsSchema);
+const Item = mongoose.model("Item", itemsSchema); // model based on schema
 
 const item1 = new Item({
     name: "Welcome to your todolist!"
@@ -39,22 +37,17 @@ const item3 = new Item({
 
 const defaultItems = [item1, item2, item3];
 
+const listSchema = {
+    name: String,
+    items:[itemsSchema]
+};
 
+const List = mongoose.model("List", listSchema); //mongoose model for List
 
-// Item.deleteMany({name:"Hit the + button to add new item."}, function (err){
-//     if(err){
-//         console.log(err);
-//     } else {
-//         console.log("Successfully delete");
-//         mongoose.connection.close();
-//     }
-    
-// })
 
 //create route for HOME page
 app.get("/", function(req, res){
 
-    
     Item.find({}, function(err, foundItems){
 
         if (foundItems.length === 0){
@@ -72,44 +65,76 @@ app.get("/", function(req, res){
     });
 });
 
+app.get("/:customListName", function(req, res){
+    const customListName = _.capitalize(req.params.customListName);
+
+    List.findOne({name: customListName}, function(err, foundList){
+        if (!err){
+            if(!foundList){
+                //create a new List
+                const list = new List({
+                    name: customListName,
+                    items: defaultItems
+                });
+                list.save();
+                res.redirect("/" + customListName);
+            } else {
+                //Show an existing list
+                res.render("list", {listTitle: foundList.name, newListItems: foundList.items});
+            }
+        }
+    });
+});
+
 // to prevent undefined value of items, we create empty items array
 app.post("/", function(req, res){
 
     const itemName = req.body.newItem;
+    const listName = req.body.list;
+
     const item = new Item({
         name: itemName
     });
-    item.save(); //to save in item DB collection
-    res.redirect("/");
 
+    if(listName === "Today"){
+        item.save(); //to save in item DB collection
+        res.redirect("/");
+    } else {
+        List.findOne({name: listName}, function(err, foundList){
+            foundList.items.push(item);
+            foundList.save();
+            res.redirect("/" + listName);
+        });
+    }
 });
 
 app.post("/delete", function(req,res){
     const checkedItemId = req.body.checkbox;
+    const listName = req.body.listName;
     
-    // need to have callback to execute
+    if (listName === "Today"){
     Item.findByIdAndRemove(checkedItemId, function (err){
         if(!err){
             console.log("Successfully deleted checked item");
+            res.redirect("/");
         }   
-    })
+    });
+    } else {
+        List.findOneAndUpdate({name: listName}, {$pull:{items: {_id: checkedItemId}}}, function(err, foundList){
+            if (!err){
+                res.redirect("/" + listName);
+            }
+        });
+}
 });
 
-//create route for WORK page
-app.get("/work", function(req, res){
-    res.render("list", {listTitle: "Work List", newListItems: workItems});
-})
+
 
 //create the route for ABOUT page
 app.get("/about", function (req, res){
     res.render("about");
 }) 
 
-app.post("/work", function(req, res){
-    let item = req.body.newItem;
-    workItems.push(item);
-    res.redirect("/work");
-})
 
 //listen in port 3000
 app.listen(3000, function(){
